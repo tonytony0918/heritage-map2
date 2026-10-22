@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>한국의 세계유산 인터랙티브 지도 전시</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- 카카오맵 SDK (자바스크립트 키 적용 완료) -->
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=85bc96b9e37852a5ae531afa7352bf8d&libraries=services&autoload=false"></script>
+</head>
+<body>
+  <div class="exhibition-container">
+    
+    <!-- 1. 좌측 사이드바 -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>한국의 세계유산</h1>
+        <p>유산을 선택하여 지도상의 위치를 확인하세요</p>
+      </div>
+      <div class="category-list" id="category-list"></div>
+    </aside>
+
+    <!-- 2. 중앙 지도 영역 -->
+    <main class="map-wrapper">
+      <div id="map"></div>
+      <div id="map-overlay-info" class="map-overlay-info hidden">
+        <span id="selected-cat-name">카테고리</span>
+        <button id="reset-map-btn">전체 지도 보기</button>
+      </div>
+    </main>
+
+    <!-- 3. 우측 상세 패널 -->
+    <aside class="info-panel">
+      <div class="panel-placeholder" id="placeholder">
+        <div class="icon">🗺️</div>
+        <p>좌측에서 유산 카테고리를 선택하거나<br>지도 위의 핀을 터치해 주세요.</p>
+      </div>
+
+      <div class="panel-content hidden" id="panel-content">
+        <h2 id="category-title">카테고리명</h2>
+        <div class="sub-locations-list" id="sub-locations-list"></div>
+      </div>
+
+      <div class="detail-card hidden" id="detail-card">
+        <button id="close-detail-btn">✕</button>
+        <span class="badge" id="detail-category-badge">카테고리</span>
+        <h3 id="detail-title">유산 이름</h3>
+        <p class="address" id="detail-address">📍 주소 정보</p>
+        <div class="desc" id="detail-desc">상세 설명</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

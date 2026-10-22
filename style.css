@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body, html {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.exhibition-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 320px;
+  height: 100%;
+  background-color: #1a1a1a;
+  border-right: 1px solid #2a2a2a;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.sidebar-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.sidebar-header p {
+  font-size: 13px;
+  color: #888888;
+  line-height: 1.4;
+}
+
+.category-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-btn {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #242424;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
+  color: #d0d0d0;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  background-color: #2f2f2f;
+  color: #ffffff;
+}
+
+.category-btn.active {
+  background-color: #0066ff;
+  color: #ffffff;
+  border-color: #0066ff;
+}
+
+.map-wrapper {
+  flex: 1;
+  position: relative;
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.map-overlay-info {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(26, 26, 26, 0.9);
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 1px solid #333333;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+.map-overlay-info span {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.map-overlay-info button {
+  background: #333333;
+  border: none;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.info-panel {
+  width: 380px;
+  height: 100%;
+  background-color: #1a1a1a;
+  border-left: 1px solid #2a2a2a;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  color: #666666;
+}
+
+.panel-placeholder .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.panel-content h2 {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.sub-locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.location-card {
+  background-color: #242424;
+  border: 1px solid #2e2e2e;
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.location-card:hover {
+  border-color: #0066ff;
+}
+
+.location-card h4 {
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.location-card p {
+  font-size: 12px;
+  color: #999999;
+}
+
+.detail-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #222222;
+  border-top: 1px solid #333333;
+  padding: 24px;
+  z-index: 20;
+}
+
+.detail-card .badge {
+  display: inline-block;
+  background-color: #0066ff;
+  color: #ffffff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.detail-card h3 {
+  font-size: 18px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.detail-card .address {
+  font-size: 12px;
+  color: #888888;
+  margin-bottom: 12px;
+}
+
+.detail-card .desc {
+  font-size: 13px;
+  color: #cccccc;
+  line-height: 1.5;
+}
+
+#close-detail-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #888888;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+/* 우측 카드 및 상세 패널 이미지 스타일 */
+.location-card img, .detail-card .detail-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.detail-card {
+  max-height: 45vh;
+  overflow-y: auto;
+}
