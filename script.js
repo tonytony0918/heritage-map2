@@ -123,32 +123,6 @@ kakao.maps.load(function() {
   };
   map = new kakao.maps.Map(mapContainer, mapOption);
 
-  // 인앱 모달(팝업 레이어) 생성
-  const modalEl = document.createElement('div');
-  modalEl.id = 'route-modal';
-  modalEl.style.cssText = "display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;";
-  modalEl.innerHTML = `
-    <div style="background:#1e1e1e; width:85%; max-width:900px; height:80vh; border-radius:12px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.5);">
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 20px; background:#2a2a2a; border-bottom:1px solid #333;">
-        <h3 id="modal-title" style="color:white; margin:0; font-size:16px;">🚌 대중교통 길찾기 안내</h3>
-        <button id="close-modal-btn" style="background:none; border:none; color:white; font-size:20px; cursor:pointer; font-weight:bold;">&times;</button>
-      </div>
-      <div style="flex:1; background:white; position:relative;">
-        <iframe id="route-iframe" src="" style="width:100%; height:100%; border:none;"></iframe>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modalEl);
-
-  const routeModal = document.getElementById('route-modal');
-  const routeIframe = document.getElementById('route-iframe');
-  const modalTitle = document.getElementById('modal-title');
-  
-  document.getElementById('close-modal-btn').onclick = () => {
-    routeModal.style.display = 'none';
-    routeIframe.src = '';
-  };
-
   // 상단 '세계유산 만나러 가기' 버튼 생성
   const controlPanel = document.createElement('div');
   controlPanel.style.cssText = "position: absolute; top: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;";
@@ -288,8 +262,8 @@ kakao.maps.load(function() {
       const dist = calculateDistance(userLat, userLng, loc.lat, loc.lng);
       distanceText = `📏 내 위치에서 직선 거리: <b>~${dist} km</b>`;
       routeBtnHtml = `
-        <button id="open-route-modal" style="width:100%; margin-top:10px; background:#ffeb00; color:#1e1e1e; text-align:center; padding:10px; border-radius:6px; font-weight:bold; border:none; cursor:pointer;">
-           🚌 대중교통 길찾기 (내 위치 연동)
+        <button id="open-route-modal" style="width:100%; margin-top:10px; background:#ffeb00; color:#1e1e1e; text-align:center; padding:12px; border-radius:6px; font-weight:bold; border:none; cursor:pointer;">
+            🚌 카카오맵 길찾기 바로가기
         </button>
       `;
     }
@@ -299,19 +273,21 @@ kakao.maps.load(function() {
       ${routeBtnHtml}
     `;
 
-    // 길찾기 버튼 클릭 시 정확한 좌표 기반 카카오맵 길찾기 URL 생성
+    // 길찾기 버튼 클릭 시 새 창(또는 모바일 카카오맵 앱)으로 바로 연결
     const openRouteBtn = document.getElementById('open-route-modal');
     if (openRouteBtn) {
       openRouteBtn.onclick = () => {
-        modalTitle.innerText = `🚌 [내 위치 ➔ ${loc.name}] 대중교통 길찾기`;
-        
+        let routeUrl = "";
         if (userLat !== null && userLng !== null) {
-          routeIframe.src = `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${loc.lat},${loc.lng}/from/내 위치,${userLat},${userLng}`;
+          // 내 위치와 목적지 좌표를 모두 포함한 카카오맵 길찾기 URL
+          routeUrl = `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${loc.lat},${loc.lng}/from/내 위치,${userLat},${userLng}`;
         } else {
-          routeIframe.src = `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${loc.lat},${loc.lng}`;
+          // 내 위치를 모를 경우 목적지 지도 페이지만 오픈
+          routeUrl = `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${loc.lat},${loc.lng}`;
         }
-
-        routeModal.style.display = 'flex';
+        
+        // 새 창(새 탭)으로 열기 -> 모바일에서는 카카오맵 앱 혹은 브라우저 길찾기로 매끄럽게 연결됨
+        window.open(routeUrl, '_blank');
       };
     }
 
