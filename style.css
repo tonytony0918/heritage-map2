@@ -1,5 +1,5 @@
 /* ==========================================================
-   1. 기본 초기화 및 공통 스타일 (PC/모바일 공용)
+   1. 기본 초기화 및 공통 스타일 (PC 기준)
    ========================================================== */
 * {
     box-sizing: border-box;
@@ -15,11 +15,12 @@ body {
     height: 100vh;
 }
 
-/* 전체 레이아웃 (PC 기본: 3단 구조) */
+/* PC 3단 레이아웃 전체 컨테이너 */
 .app-container {
     display: flex;
     width: 100vw;
     height: 100vh;
+    position: relative;
 }
 
 /* 왼쪽 사이드바 (카테고리 목록) */
@@ -85,11 +86,12 @@ body {
     color: #fff;
 }
 
-/* 중앙 지도 영역 */
+/* 중앙 지도 영역 (PC 기본값 명시) */
 .map-container {
     flex: 1;
     height: 100vh;
     position: relative;
+    background: #1e1e1e;
 }
 
 #map {
@@ -178,73 +180,75 @@ body {
     padding: 20px;
 }
 
-/* 하단 상세 카드 (기본 PC용 숨김 또는 기본 배치) */
+/* 상세 카드 공통 */
 #detail-card {
     background: #222;
     border-top: 1px solid #333;
     padding: 20px;
 }
 
-/* 공통 유틸리티 */
 .hidden {
     display: none !important;
 }
 
 
 /* ==========================================================
-   2. 모바일 반응형 스타일 (768px 이하)
+   2. 모바일 반응형 스타일 (768px 이하에서만 작동)
    ========================================================== */
 @media screen and (max-width: 768px) {
     .app-container {
-        flex-direction: column;
+        flex-direction: column !important;
     }
 
-    /* 상단 지도 영역 (모바일 화면의 상단 절반 차지) */
+    /* 모바일 상단 지도 영역 (50% 높이 고정) */
     .map-container {
         width: 100% !important;
-        height: 55vh !important;
+        height: 50vh !important;
+        flex: none !important;
         position: relative !important;
     }
 
-    /* PC용 우측 패널 전체 숨김 */
+    #map {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* PC용 우측 패널 숨김 */
     .info-panel {
         display: none !important;
     }
 
-    /* 모바일용 하단 리스트 패널 컨테이너 */
+    /* 모바일 하단 리스트 영역 (50% 높이 고정) */
     .sidebar {
         width: 100% !important;
-        height: 45vh !important;
-        position: absolute !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        background: #1a1a1a !important;
+        height: 50vh !important;
+        flex: none !important;
+        position: relative !important;
         border-top-left-radius: 20px !important;
         border-top-right-radius: 20px !important;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
-        z-index: 100 !important;
+        background: #1a1a1a !important;
     }
 
     .sidebar-header {
-        padding: 12px 20px !important;
+        padding: 12px 16px !important;
     }
 
     .sidebar-header h2 {
-        font-size: 16px !important;
+        font-size: 15px !important;
     }
 
-    /* 카테고리 버튼 목록 레이아웃 */
     .category-list {
-        padding: 10px 16px !important;
-        gap: 8px !important;
+        padding: 10px 12px !important;
+        gap: 6px !important;
     }
 
     .category-btn {
-        padding: 12px 14px !important;
+        padding: 10px 12px !important;
         font-size: 13px !important;
     }
 
-    /* 카테고리 선택 시 뜨는 세부 유산 리스트 (#panel-content) */
+    /* 카테고리 클릭 시 열리는 세부 유산 리스트 */
     #panel-content {
         display: block !important;
         position: absolute !important;
@@ -258,21 +262,20 @@ body {
         z-index: 110 !important;
         overflow-y: auto !important;
         padding: 16px !important;
-        box-sizing: border-box !important;
     }
 
     #panel-content.hidden {
         display: none !important;
     }
 
-    /* 세부 유산 카드 클릭 시 화면 하단에 올라오는 길찾기 상세 카드 (#detail-card) */
+    /* 길찾기 상세 카드 (모바일 최하단 고정 팝업) */
     #detail-card {
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        max-height: 85vh !important;
+        max-height: 80vh !important;
         overflow-y: auto !important;
         background: #1e1e1e !important;
         border-top-left-radius: 20px !important;
@@ -280,8 +283,6 @@ body {
         box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.8) !important;
         z-index: 9999 !important;
         padding: 20px !important;
-        box-sizing: border-box !important;
-        border-top: 1px solid #333 !important;
     }
 
     #detail-card.hidden {

@@ -123,6 +123,11 @@ kakao.maps.load(function() {
   };
   map = new kakao.maps.Map(mapContainer, mapOption);
 
+  // 지도가 처음 켜진 후 0.3초 뒤 레이아웃 재계산 (모바일 비어짐 현상 방지)
+  setTimeout(() => {
+    if (map) map.relayout();
+  }, 300);
+
   // 상단 '세계유산 만나러 가기' 버튼 생성
   const controlPanel = document.createElement('div');
   controlPanel.style.cssText = "position: absolute; top: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;";
@@ -273,20 +278,15 @@ kakao.maps.load(function() {
       ${routeBtnHtml}
     `;
 
-    // 길찾기 버튼 클릭 시 새 창(또는 모바일 카카오맵 앱)으로 바로 연결
     const openRouteBtn = document.getElementById('open-route-modal');
     if (openRouteBtn) {
       openRouteBtn.onclick = () => {
         let routeUrl = "";
         if (userLat !== null && userLng !== null) {
-          // 내 위치와 목적지 좌표를 모두 포함한 카카오맵 길찾기 URL
           routeUrl = `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${loc.lat},${loc.lng}/from/내 위치,${userLat},${userLng}`;
         } else {
-          // 내 위치를 모를 경우 목적지 지도 페이지만 오픈
           routeUrl = `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${loc.lat},${loc.lng}`;
         }
-        
-        // 새 창(새 탭)으로 열기 -> 모바일에서는 카카오맵 앱 혹은 브라우저 길찾기로 매끄럽게 연결됨
         window.open(routeUrl, '_blank');
       };
     }
@@ -332,4 +332,11 @@ kakao.maps.load(function() {
   closeDetailBtn.onclick = () => {
     detailCard.classList.add('hidden');
   };
+
+  // 창 크기 변경 시 지도를 깨짐 없이 재계산해주는 이벤트
+  window.addEventListener('resize', function() {
+    if (map) {
+      map.relayout();
+    }
+  });
 });
