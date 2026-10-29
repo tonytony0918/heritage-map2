@@ -5,16 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>한국의 세계유산 인터랙티브 지도 전시</title>
   <link rel="stylesheet" href="style.css">
-  <!-- 카카오맵 SDK (자바스크립트 키 적용 완료) -->
+  <!-- 카카오맵 SDK -->
   <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=85bc96b9e37852a5ae531afa7352bf8d&libraries=services&autoload=false"></script>
 </head>
 <body>
   <div class="app-container">
     
-    <!-- 1. 좌측 사이드바 (모바일에서는 하단 리스트로 변환) -->
+    <!-- 1. 좌측 사이드바 -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2>한국의 세계유산</h2>
+        <div class="header-title-wrapper">
+          <!-- 유네스코 로고 -->
+          <img src="유네스코.png" alt="유네스코 로고" class="header-unesco-icon">
+          <h2>한국의 세계유산</h2>
+        </div>
         <p>유산을 선택하여 지도상의 위치를 확인하세요</p>
       </div>
       <div class="category-list" id="category-list"></div>
@@ -23,17 +27,19 @@
     <!-- 2. 중앙 지도 영역 -->
     <main class="map-container">
       <div id="map"></div>
+
+      <!-- 지도 상단 좌측: 유산 선택 시 표시되는 카테고리 정보 & 전체 지도 보기 버튼 -->
       <div id="map-overlay-info" class="map-overlay-info hidden">
         <span id="selected-cat-name">카테고리</span>
-        <button id="reset-map-btn">전체 지도 보기</button>
+        <button id="reset-map-btn">전체 지도로 돌아가기</button>
       </div>
     </main>
 
-    <!-- 3. 우측 상세 패널 (PC용 및 모바일 팝업용) -->
+    <!-- 3. 우측 상세 패널 -->
     <aside class="info-panel">
+      <!-- 초기 화면 플레이스홀더 -->
       <div class="placeholder" id="placeholder">
-        <div class="icon">🗺️</div>
-        <p>좌측에서 유산 카테고리를 선택하거나<br>지도 위의 핀을 터치해 주세요.</p>
+        <p>'세계유산 만나러 가기' 클릭 후<br>만나고 싶은 유산을 선택해주세요.</p>
       </div>
 
       <div class="panel-content hidden" id="panel-content">
@@ -45,11 +51,24 @@
         <button id="close-detail-btn">✕</button>
         <span class="badge" id="detail-category-badge">카테고리</span>
         <h3 id="detail-title">유산 이름</h3>
-        <p class="address" id="detail-address">📍 주소 정보</p>
+        <p class="address" id="detail-address"> 주소 정보</p>
         <div class="desc" id="detail-desc">상세 설명</div>
       </div>
     </aside>
 
+  </div>
+
+  <!-- 🗺️ 사이트 내 카카오맵 길찾기 모달 창 (화면 이동 방지용 iframe 팝업) -->
+  <div id="route-modal" class="route-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:999999; justify-content:center; align-items:center;">
+    <div style="background:#14161b; width:85vw; max-width:900px; height:80vh; border-radius:14px; border:1px solid #2d313d; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.9);">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; background:#191c23; border-bottom:1px solid #23262e;">
+        <h3 id="modal-title" style="color:#f3f4f6; margin:0; font-size:16px; font-weight:700;">🚌 대중교통 길찾기 안내</h3>
+        <button id="close-route-modal" style="background:none; border:none; color:#9ca3af; font-size:24px; cursor:pointer; font-weight:bold;">✕</button>
+      </div>
+      <div style="flex:1; background:#0f1115; position:relative;">
+        <iframe id="route-iframe" src="" style="width:100%; height:100%; border:none;" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
